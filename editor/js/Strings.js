@@ -668,6 +668,7 @@ function Strings( config ) {
 			'menubar/file/import': '导入',
 			'menubar/file/export/geometry': '导出几何体',
 			'menubar/file/export/object': '导出物体',
+			'menubar/file/export/object_gltf': '导出物体为GLTF',
 			'menubar/file/export/scene': '导出场景',
 			'menubar/file/export/dae': '导出DAE',
 			'menubar/file/export/drc': '导出DRC',
