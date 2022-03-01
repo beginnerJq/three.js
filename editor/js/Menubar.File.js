@@ -149,6 +149,39 @@ function MenubarFile( editor ) {
 	} );
 	options.add( option );
 
+	// Export Object as GLTF
+
+	option = new UIRow();
+	option.setClass( 'option' );
+	option.setTextContent( strings.getKey( 'menubar/file/export/object_gltf' ) );
+	option.onClick( async function () {
+
+		const object = editor.selected;
+
+
+		if ( object === null ) {
+
+			alert( 'No object selected' );
+			return;
+
+		}
+
+		const animations = getAnimations( object );
+
+		const { GLTFExporter } = await import( '../../examples/jsm/exporters/GLTFExporter.js' );
+
+		const exporter = new GLTFExporter();
+
+		exporter.parse( object, function ( result ) {
+
+			saveString( JSON.stringify( result, null, 2 ), 'object.gltf' );
+
+		}, undefined, { animations: animations } );
+
+	} );
+
+	options.add( option );
+
 	// Export Scene
 
 	option = new UIRow();

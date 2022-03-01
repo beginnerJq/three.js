@@ -11,6 +11,7 @@ function Strings( config ) {
 			'menubar/file/import': 'Import',
 			'menubar/file/export/geometry': 'Export Geometry',
 			'menubar/file/export/object': 'Export Object',
+			'menubar/file/export/object_gltf': 'Export Object as GLTF',
 			'menubar/file/export/scene': 'Export Scene',
 			'menubar/file/export/dae': 'Export DAE',
 			'menubar/file/export/drc': 'Export DRC',
