@@ -12,6 +12,7 @@
 				"Drawing lines": "manual/en/introduction/Drawing-lines",
 				"Creating text": "manual/en/introduction/Creating-text",
 				"Loading 3D models": "manual/en/introduction/Loading-3D-models",
+				"Color management": "manual/en/introduction/Color-management",
 				"Libraries and Plugins": "manual/en/introduction/Libraries-and-Plugins",
 				"FAQ": "manual/en/introduction/FAQ",
 				"Useful links": "manual/en/introduction/Useful-links"
@@ -389,10 +390,11 @@
 			},
 
 			"Exporters": {
-				"GLTFExporter": "examples/en/exporters/GLTFExporter",
-				"PLYExporter": "examples/en/exporters/PLYExporter",
 				"ColladaExporter": "examples/en/exporters/ColladaExporter",
-				"EXRExporter": "examples/en/exporters/EXRExporter"
+				"EXRExporter": "examples/en/exporters/EXRExporter",
+				"GLTFExporter": "examples/en/exporters/GLTFExporter",
+				"OBJExporter": "examples/en/exporters/OBJExporter",
+				"PLYExporter": "examples/en/exporters/PLYExporter"
 			},
 
 			"Math": {
@@ -885,9 +887,9 @@
 			},
 
 			"导出器": {
+				"ColladaExporter": "examples/zh/exporters/ColladaExporter",
 				"GLTFExporter": "examples/zh/exporters/GLTFExporter",
-				"PLYExporter": "examples/zh/exporters/PLYExporter",
-				"ColladaExporter": "examples/zh/exporters/ColladaExporter"
+				"PLYExporter": "examples/zh/exporters/PLYExporter"
 			},
 
 			"数学库": {
