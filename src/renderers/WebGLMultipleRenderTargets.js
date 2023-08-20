@@ -2,9 +2,11 @@ import { WebGLRenderTarget } from './WebGLRenderTarget.js';
 
 class WebGLMultipleRenderTargets extends WebGLRenderTarget {
 
-	constructor( width, height, count, options = {} ) {
+	constructor( width = 1, height = 1, count = 1, options = {} ) {
 
 		super( width, height, options );
+
+		this.isWebGLMultipleRenderTargets = true;
 
 		const texture = this.texture;
 
@@ -42,8 +44,6 @@ class WebGLMultipleRenderTargets extends WebGLRenderTarget {
 		this.viewport.set( 0, 0, width, height );
 		this.scissor.set( 0, 0, width, height );
 
-		return this;
-
 	}
 
 	copy( source ) {
@@ -54,18 +54,22 @@ class WebGLMultipleRenderTargets extends WebGLRenderTarget {
 		this.height = source.height;
 		this.depth = source.depth;
 
-		this.viewport.set( 0, 0, this.width, this.height );
-		this.scissor.set( 0, 0, this.width, this.height );
+		this.scissor.copy( source.scissor );
+		this.scissorTest = source.scissorTest;
+
+		this.viewport.copy( source.viewport );
 
 		this.depthBuffer = source.depthBuffer;
 		this.stencilBuffer = source.stencilBuffer;
-		this.depthTexture = source.depthTexture;
+
+		if ( source.depthTexture !== null ) this.depthTexture = source.depthTexture.clone();
 
 		this.texture.length = 0;
 
 		for ( let i = 0, il = source.texture.length; i < il; i ++ ) {
 
 			this.texture[ i ] = source.texture[ i ].clone();
+			this.texture[ i ].isRenderTargetTexture = true;
 
 		}
 
@@ -74,7 +78,5 @@ class WebGLMultipleRenderTargets extends WebGLRenderTarget {
 	}
 
 }
-
-WebGLMultipleRenderTargets.prototype.isWebGLMultipleRenderTargets = true;
 
 export { WebGLMultipleRenderTargets };

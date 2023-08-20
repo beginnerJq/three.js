@@ -8,7 +8,8 @@ import {
 	UniformsUtils,
 	Vector3,
 	Vector4,
-	WebGLRenderTarget
+	WebGLRenderTarget,
+	HalfFloatType
 } from 'three';
 
 class Reflector extends Mesh {
@@ -17,7 +18,10 @@ class Reflector extends Mesh {
 
 		super( geometry );
 
+		this.isReflector = true;
+
 		this.type = 'Reflector';
+		this.camera = new PerspectiveCamera();
 
 		const scope = this;
 
@@ -43,11 +47,12 @@ class Reflector extends Mesh {
 		const q = new Vector4();
 
 		const textureMatrix = new Matrix4();
-		const virtualCamera = new PerspectiveCamera();
+		const virtualCamera = this.camera;
 
-		const renderTarget = new WebGLRenderTarget( textureWidth, textureHeight, { samples: multisample } );
+		const renderTarget = new WebGLRenderTarget( textureWidth, textureHeight, { samples: multisample, type: HalfFloatType } );
 
 		const material = new ShaderMaterial( {
+			name: ( shader.name !== undefined ) ? shader.name : 'unspecified',
 			uniforms: UniformsUtils.clone( shader.uniforms ),
 			fragmentShader: shader.fragmentShader,
 			vertexShader: shader.vertexShader
@@ -134,9 +139,6 @@ class Reflector extends Mesh {
 			projectionMatrix.elements[ 14 ] = clipPlane.w;
 
 			// Render
-
-			renderTarget.texture.encoding = renderer.outputEncoding;
-
 			scope.visible = false;
 
 			const currentRenderTarget = renderer.getRenderTarget();
@@ -190,9 +192,9 @@ class Reflector extends Mesh {
 
 }
 
-Reflector.prototype.isReflector = true;
-
 Reflector.ReflectorShader = {
+
+	name: 'ReflectorShader',
 
 	uniforms: {
 
@@ -252,6 +254,9 @@ Reflector.ReflectorShader = {
 
 			vec4 base = texture2DProj( tDiffuse, vUv );
 			gl_FragColor = vec4( blendOverlay( base.rgb, color ), 1.0 );
+
+			#include <tonemapping_fragment>
+			#include <colorspace_fragment>
 
 		}`
 };

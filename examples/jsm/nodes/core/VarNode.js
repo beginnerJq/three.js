@@ -1,13 +1,36 @@
-import Node from './Node.js';
+import Node, { addNodeClass } from './Node.js';
+import { addNodeElement, nodeProxy } from '../shadernode/ShaderNode.js';
 
 class VarNode extends Node {
 
-	constructor( node, name = null, nodeType = null ) {
+	constructor( node, name = null ) {
 
-		super( nodeType );
+		super();
 
 		this.node = node;
 		this.name = name;
+
+	}
+
+	assign( node ) {
+
+		node.traverse( ( childNode, replaceNode ) => {
+
+			if ( replaceNode && childNode.uuid === this.uuid ) {
+
+				replaceNode( this.node );
+
+			}
+
+		} );
+		this.node = node;
+		return this;
+
+	}
+
+	isGlobal() {
+
+		return true;
 
 	}
 
@@ -19,15 +42,22 @@ class VarNode extends Node {
 
 	getNodeType( builder ) {
 
-		return super.getNodeType( builder ) || this.node.getNodeType( builder );
+		return this.node.getNodeType( builder );
 
 	}
 
 	generate( builder ) {
 
-		const type = builder.getVectorType( this.getNodeType( builder ) );
 		const node = this.node;
 		const name = this.name;
+
+		if ( name === null && node.isTempNode === true ) {
+
+			return node.build( builder );
+
+		}
+
+		const type = builder.getVectorType( this.getNodeType( builder ) );
 
 		const snippet = node.build( builder, type );
 		const nodeVar = builder.getVarFromNode( this, type );
@@ -40,7 +70,7 @@ class VarNode extends Node {
 
 		const propertyName = builder.getPropertyName( nodeVar );
 
-		builder.addFlowCode( `${propertyName} = ${snippet}` );
+		builder.addLineFlowCode( `${propertyName} = ${snippet}` );
 
 		return propertyName;
 
@@ -48,6 +78,10 @@ class VarNode extends Node {
 
 }
 
-VarNode.prototype.isVarNode = true;
-
 export default VarNode;
+
+export const temp = nodeProxy( VarNode );
+
+addNodeElement( 'temp', temp );
+
+addNodeClass( VarNode );

@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-import { zipSync, strToU8 } from '../../examples/jsm/libs/fflate.module.js';
+import { zipSync, strToU8 } from 'three/addons/libs/fflate.module.js';
 
 import { UIPanel, UIRow, UIHorizontalRule } from './libs/ui.js';
 
@@ -211,26 +211,6 @@ function MenubarFile( editor ) {
 
 	options.add( new UIHorizontalRule() );
 
-	// Export DAE
-
-	option = new UIRow();
-	option.setClass( 'option' );
-	option.setTextContent( strings.getKey( 'menubar/file/export/dae' ) );
-	option.onClick( async function () {
-
-		const { ColladaExporter } = await import( '../../examples/jsm/exporters/ColladaExporter.js' );
-
-		const exporter = new ColladaExporter();
-
-		exporter.parse( editor.scene, function ( result ) {
-
-			saveString( result.data, 'scene.dae' );
-
-		} );
-
-	} );
-	options.add( option );
-
 	// Export DRC
 
 	option = new UIRow();
@@ -247,7 +227,7 @@ function MenubarFile( editor ) {
 
 		}
 
-		const { DRACOExporter } = await import( '../../examples/jsm/exporters/DRACOExporter.js' );
+		const { DRACOExporter } = await import( 'three/addons/exporters/DRACOExporter.js' );
 
 		const exporter = new DRACOExporter();
 
@@ -278,7 +258,7 @@ function MenubarFile( editor ) {
 		const scene = editor.scene;
 		const animations = getAnimations( scene );
 
-		const { GLTFExporter } = await import( '../../examples/jsm/exporters/GLTFExporter.js' );
+		const { GLTFExporter } = await import( 'three/addons/exporters/GLTFExporter.js' );
 
 		const exporter = new GLTFExporter();
 
@@ -301,7 +281,7 @@ function MenubarFile( editor ) {
 		const scene = editor.scene;
 		const animations = getAnimations( scene );
 
-		const { GLTFExporter } = await import( '../../examples/jsm/exporters/GLTFExporter.js' );
+		const { GLTFExporter } = await import( 'three/addons/exporters/GLTFExporter.js' );
 
 		const exporter = new GLTFExporter();
 
@@ -331,7 +311,7 @@ function MenubarFile( editor ) {
 
 		}
 
-		const { OBJExporter } = await import( '../../examples/jsm/exporters/OBJExporter.js' );
+		const { OBJExporter } = await import( 'three/addons/exporters/OBJExporter.js' );
 
 		const exporter = new OBJExporter();
 
@@ -347,7 +327,7 @@ function MenubarFile( editor ) {
 	option.setTextContent( strings.getKey( 'menubar/file/export/ply' ) );
 	option.onClick( async function () {
 
-		const { PLYExporter } = await import( '../../examples/jsm/exporters/PLYExporter.js' );
+		const { PLYExporter } = await import( 'three/addons/exporters/PLYExporter.js' );
 
 		const exporter = new PLYExporter();
 
@@ -367,7 +347,7 @@ function MenubarFile( editor ) {
 	option.setTextContent( strings.getKey( 'menubar/file/export/ply_binary' ) );
 	option.onClick( async function () {
 
-		const { PLYExporter } = await import( '../../examples/jsm/exporters/PLYExporter.js' );
+		const { PLYExporter } = await import( 'three/addons/exporters/PLYExporter.js' );
 
 		const exporter = new PLYExporter();
 
@@ -387,7 +367,7 @@ function MenubarFile( editor ) {
 	option.setTextContent( strings.getKey( 'menubar/file/export/stl' ) );
 	option.onClick( async function () {
 
-		const { STLExporter } = await import( '../../examples/jsm/exporters/STLExporter.js' );
+		const { STLExporter } = await import( 'three/addons/exporters/STLExporter.js' );
 
 		const exporter = new STLExporter();
 
@@ -403,7 +383,7 @@ function MenubarFile( editor ) {
 	option.setTextContent( strings.getKey( 'menubar/file/export/stl_binary' ) );
 	option.onClick( async function () {
 
-		const { STLExporter } = await import( '../../examples/jsm/exporters/STLExporter.js' );
+		const { STLExporter } = await import( 'three/addons/exporters/STLExporter.js' );
 
 		const exporter = new STLExporter();
 
@@ -419,11 +399,11 @@ function MenubarFile( editor ) {
 	option.setTextContent( strings.getKey( 'menubar/file/export/usdz' ) );
 	option.onClick( async function () {
 
-		const { USDZExporter } = await import( '../../examples/jsm/exporters/USDZExporter.js' );
+		const { USDZExporter } = await import( 'three/addons/exporters/USDZExporter.js' );
 
 		const exporter = new USDZExporter();
 
-		saveArrayBuffer( await exporter.parse( editor.scene, { binary: true } ), 'model.usdz' );
+		saveArrayBuffer( await exporter.parse( editor.scene ), 'model.usdz' );
 
 	} );
 	options.add( option );
